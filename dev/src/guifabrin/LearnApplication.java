@@ -17,8 +17,8 @@ public class LearnApplication {
     double[][][] estados;
     Labirinto labirinto;
 
-    public static void main(String[] args) throws IOException {
-        new LearnApplication();
+    public static void main(String[] args) {
+        new LearnApplication(args.length > 0 ?Integer.parseInt(args[0]):0);
     }
 
     private void obstaculos(){
@@ -34,7 +34,7 @@ public class LearnApplication {
         labirinto.adiciona(Tipo.POCO, 4, 4);
     }
 
-    public LearnApplication(){
+    public LearnApplication(int sleep){
         estados = new double[tamanho][tamanho][4];
         labirinto = new Labirinto(tamanho);
         obstaculos();
@@ -45,7 +45,7 @@ public class LearnApplication {
         while (maiorValor(estados[IML][IMC]) <= 0) {
             while (true) {
                 Direcao direcao = maiorDirecao(estados[IML][IMC]);
-                int[] NIM = ChangeValue(IML, IMC, direcao);
+                int[] NIM = trocarLugar(IML, IMC, direcao);
 
                 if (estados[IML][IMC][direcao.valor] > 0) break;
 
@@ -53,9 +53,8 @@ public class LearnApplication {
                     IML = NIM[0];
                     IMC = NIM[1];
                 }
-                PrintTable();
                 try {
-                    Thread.sleep(100);
+                    //Thread.sleep(100);
                 } catch (Exception e) {
                 }
             }
@@ -81,7 +80,7 @@ public class LearnApplication {
 
     }
 
-    public int[] ChangeValue(int linha, int coluna, Direcao direcao) {
+    public int[] trocarLugar(int linha, int coluna, Direcao direcao) {
         direcao.setLinha(linha);
         direcao.setColuna(coluna);
         Tipo tipo = this.labirinto.tipo(direcao);

@@ -10,6 +10,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.awt.image.WritableRaster;
 import java.io.IOException;
 import java.net.URL;
 
@@ -126,22 +128,16 @@ public class NewJFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     public void UpdateButtons(Labirinto Table, double[][][] States, LearnApplication la) {
-        int IMAGE_SIZE = BUTTON_SIZE / 2;
         for (int i = 0; i < SIZE; i++) {
             for (int j = 0; j < SIZE; j++) {
                 Tipo tipo = Table.tipo(i, j);
-                try {
-                    if (tipo != Tipo.NADA) {
-                        URL url = new URL("https://raw.githubusercontent.com/guifabrin/java_aprendizado_por_reforco/master/src/javaapplication/"+tipo+".png");//tipo.toString()
-                        Image img = ImageIO.read(url).getScaledInstance(IMAGE_SIZE, IMAGE_SIZE, java.awt.Image.SCALE_SMOOTH);
-                        Paineis[i][j].setIcon(new ImageIcon(img));
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                Direcao maiorDirecao = la.maiorDirecao(States[i][j]);
+                if (tipo == Tipo.NADA) {
+                    Paineis[i][j].setIcon(new ImageIcon(maiorDirecao.imagem));
+                } else {
+                    Paineis[i][j].setIcon(new ImageIcon(tipo.imagem));
                 }
             }
         }
     }
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    // End of variables declaration//GEN-END:variables
 }
